@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhu Nguyen ☕ Portfolio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --matcha: #8B7355;
+            --cream: #F5EBE0;
+            --latte: #E3D5CA;
+            --espresso: #6B5B4F;
+            --foam: #FFFBF5;
+            --cinnamon: #A0826D;
+        }
+
+        body {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            background: var(--foam);
+            color: var(--espresso);
+            overflow-x: hidden;
+        }
+
+        /* Matcha cup cursor trail */
+        .matcha-particle {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--matcha);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            animation: float-away 2s ease-out;
+            z-index: 9999;
+        }
+
+        @keyframes float-away {
+            0% { opacity: 0.7; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(0, -100px) scale(0); }
+        }
+
+        /* Hero section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--latte) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated matcha leaves */
+        .leaf {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .leaf:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .leaf:nth-child(2) { left: 30%; animation-delay: 3s; }
+        .leaf:nth-child(3) { left: 50%; animation-delay: 6s; }
+        .leaf:nth-child(4) { left: 70%; animation-delay: 9s; }
+        .leaf:nth-child(5) { left: 90%; animation-delay: 12s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-50px) rotate(180deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            padding: 2rem;
+        }
+
+        .matcha-cup {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            animation: steam 3s infinite ease-in-out;
+            display: inline-block;
+        }
+
+        @keyframes steam {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-family: 'Crimson Text', serif;
+            font-size: 4rem;
+            color: var(--matcha);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: var(--espresso);
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: var(--matcha);
+            color: var(--foam);
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--matcha);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--foam);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .cta-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .cta-button:hover {
+            color: var(--matcha);
+        }
+
+        .cta-button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(245, 235, 224, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 1px solid var(--latte);
+            transform: translateY(-100%);
+            transition: transform 0.3s;
+        }
+
+        nav.visible {
+            transform: translateY(0);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--espresso);
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--matcha);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* Section styling */
+        section {
+            margin-bottom: 6rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Crimson Text', serif;
+            font-size: 3rem;
+            color: var(--matcha);
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '〜';
+            position: absolute;
+            right: -40px;
+            font-size: 2rem;
+            animation: wave 2s infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            75% { transform: rotate(-10deg); }
+        }
+
+        .section-subtitle {
+            color: var(--cinnamon);
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--cream);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border: 2px solid var(--latte);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--latte) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) rotate(1deg);
+            box-shadow: 0 20px 40px rgba(139, 115, 85, 0.2);
+            border-color: var(--matcha);
+        }
+
+        .card:hover::before {
+            opacity: 0.5;
+        }
+
+        .card h3 {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.8rem;
+            color: var(--matcha);
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-meta {
+            color: var(--cinnamon);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card ul {
+            margin-left: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card li {
+            margin-bottom: 0.7rem;
+            color: var(--espresso);
+            line-height: 1.6;
+        }
+
+        .card li::marker {
+            content: '☕ ';
+        }
+
+        /* Skills grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: var(--cream);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid var(--latte);
+            transition: all 0.4s;
+            position: relative;
+        }
+
+        .skill-card:hover {
+            transform: scale(1.05) rotate(-2deg);
+            border-color: var(--matcha);
+        }
+
+        .skill-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .skill-card h3 {
+            font-family: 'Crimson Text', serif;
+            color: var(--matcha);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .skill-card p {
+            color: var(--espresso);
+            line-height: 1.8;
+        }
+
+        /* Project links */
+        .project-links {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.5rem;
+            background: var(--matcha);
+            color: var(--foam);
+            text-decoration: none;
+            border-radius: 20px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .project-link:hover {
+            background: var(--espresso);
+            transform: translateX(5px);
+        }
+
+        /* About section special styling */
+        .about-content {
+            background: var(--cream);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 2px solid var(--latte);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .about-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Contact section */
+        .contact-grid {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-card {
+            background: var(--cream);
+            padding: 2rem 3rem;
+            border-radius: 20px;
+            border: 2px solid var(--latte);
+            text-decoration: none;
+            color: var(--espresso);
+            transition: all 0.4s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-card:hover {
+            transform: scale(1.1) rotate(-5deg);
+            border-color: var(--matcha);
+            background: var(--matcha);
+            color: var(--foam);
+        }
+
+        .contact-icon {
+            font-size: 3rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--matcha);
+            color: var(--foam);
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            font-size: 1.1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .tagline { font-size: 1.2rem; }
+            .section-header h2 { font-size: 2rem; }
+            nav ul { gap: 1rem; }
+            .matcha-cup { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating leaves -->
+    <div class="hero">
+        <svg class="leaf" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50,10 Q80,40 50,90 Q20,40 50,10" fill="#8B7355"/>
+        </svg>
+        <svg class="leaf" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50,10 Q80,40 50,90 Q20,40 50,10" fill="#8B7355"/>
+        </svg>
+        <svg class="leaf" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50,10 Q80,40 50,90 Q20,40 50,10" fill="#8B7355"/>
+        </svg>
+        <svg class="leaf" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50,10 Q80,40 50,90 Q20,40 50,10" fill="#8B7355"/>
+        </svg>
+        <svg class="leaf" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50,10 Q80,40 50,90 Q20,40 50,10" fill="#8B7355"/>
+        </svg>
+
+        <div class="hero-content">
+            <div class="matcha-cup">🍵</div>
+            <h1>Nhu Nguyen</h1>
+            <p class="tagline">Please have a matcha, see if my portfolio will match ya?</p>
+            <a href="#about" class="cta-button"><span>Sip & Explore ☕</span></a>
+        </div>
+    </div>
+
+    <nav id="nav">
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <section id="about">
+            <div class="section-header">
+                <h2>A Warm Welcome</h2>
+                <p class="section-subtitle">like the first sip of morning coffee ☕</p>
+            </div>
+            <div class="about-content">
+                <p>Hello! I'm Nhu, a Computer Science student at Pacific Lutheran University with a minor in Data Science. I'm passionate about leveraging technology to solve real-world problems, from building educational tools to automating workflows and conducting research.</p>
+                <p>With experience spanning software development, data analysis, UI/UX design, and research coordination, I enjoy working at the intersection of technology and impact. Whether it's teaching coding to kids, building Bayesian networks, or designing accessible interfaces, I'm always excited to learn and create.</p>
+                <p>Like a perfectly brewed cup of matcha—balanced, thoughtful, and energizing—I bring dedication and creativity to everything I do. ✨</p>
+            </div>
+        </section>
+
+        <section id="education">
+            <div class="section-header">
+                <h2>Education</h2>
+                <p class="section-subtitle">brewing knowledge, one class at a time 📚</p>
+            </div>
+            
+            <div class="card">
+                <h3>Pacific Lutheran University</h3>
+                <div class="card-meta">
+                    <span><strong>B.S. Computer Science, Minor in Data Science</strong></span>
+                    <span>Expected May 2027</span>
+                </div>
+                <p style="margin-top: 1rem; color: var(--espresso);"><strong>Relevant Coursework:</strong> Data Structures & Algorithms, Programming Language Concepts, Intro to Machine Learning, Intro to Data Science, Intro to Statistics, Calculus I-IV</p>
+            </div>
+
+            <div class="card">
+                <h3>Bellevue College</h3>
+                <div class="card-meta">
+                    <span><strong>AAS - Computer Science</strong></span>
+                    <span>June 2025</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <div class="section-header">
+                <h2>Experience</h2>
+                <p class="section-subtitle">where passion meets purpose ✨</p>
+            </div>
+
+            <div class="card">
+                <h3>Research & Project Management Intern</h3>
+                <div class="card-meta">
+                    <span><strong>DAWN Inc.</strong> (Remote)</span>
+                    <span>Oct 2025 – Present</span>
+                </div>
+                <ul>
+                    <li>Conduct open-source research and organize grants data to support aid initiatives, reducing redundancy by 30%</li>
+                    <li>Assist project coordination and documentation across 3 interdisciplinary teams</li>
+                    <li>Collaborate with mentors to automate workflows using Monday.com, improving team efficiency</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>New Student Orientation Assistant</h3>
+                <div class="card-meta">
+                    <span><strong>Campus Life, Pacific Lutheran University</strong></span>
+                    <span>Aug – Sep 2025</span>
+                </div>
+                <ul>
+                    <li>Coordinated logistics for 500+ students during orientation week</li>
+                    <li>Managed inventory of 100+ items in Excel, reducing tracking errors by 15%</li>
+                    <li>Provided frontline student support, achieving 95% satisfaction feedback</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Coding Instructor Intern</h3>
+                <div class="card-meta">
+                    <span><strong>Code Ninjas, Newcastle WA</strong></span>
+                    <span>Apr – Jun 2025</span>
+                </div>
+                <ul>
+                    <li>Taught coding to 30+ students (ages 3–12) using JavaScript and Scratch</li>
+                    <li>Created challenges improving retention and participation by 25%</li>
+                    <li>Maintained lesson plans and devices to support structured learning</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Research Assistant – Physics</h3>
+                <div class="card-meta">
+                    <span><strong>Bellevue College, Sunset in a Tube Demonstration</strong></span>
+                    <span>Feb – Jun 2025</span>
+                </div>
+                <ul>
+                    <li>Supported experimental setup and used LoggerPro to collect 400+ light intensity data points for wavelength scattering</li>
+                    <li>Conducted quantitative analysis and visualizations with correlation coefficients above 0.9</li>
+                    <li>Contributed research findings that informed a later published paper on fluorescence and optical analysis</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="section-header">
+                <h2>Projects</h2>
+                <p class="section-subtitle">crafted with care & curiosity 🌱</p>
+            </div>
+
+            <div class="card">
+                <h3>Morse Code Generator</h3>
+                <div class="card-meta">
+                    <span><strong>C++</strong></span>
+                    <span>Oct 2025</span>
+                </div>
+                <ul>
+                    <li>Built a command-line Morse code encoder/decoder using a binary tree for efficient character mapping</li>
+                    <li>Implemented traversal algorithms for encoding text to Morse and decoding back</li>
+                    <li>Added real-time input handling and robust error checking for a smooth user experience</li>
+                </ul>
+                <div class="project-links">
+                    <a href="https://github.com/your-repo" target="_blank" class="project-link">→ GitHub</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Bayesian Networks Visualization</h3>
+                <div class="card-meta">
+                    <span><strong>Python</strong></span>
+                    <span>Oct 2025</span>
+                </div>
+                <ul>
+                    <li>Visualized Play Tennis dataset using Bayesian Networks with 94% accuracy</li>
+                    <li>Applied conditional probability and inference using pandas, scikit-learn, pgmpy</li>
+                    <li>Generated network graphs with matplotlib and networkx</li>
+                </ul>
+                <div class="project-links">
+                    <a href="https://github.com/your-repo" target="_blank" class="project-link">→ GitHub</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Replica Family Promise Form Automation</h3>
+                <div class="card-meta">
+                    <span><strong>Google Apps Script</strong></span>
+                    <span>Sep – Oct 2025</span>
+                </div>
+                <ul>
+                    <li>Automated intake workflows, validated submissions for 95% data accuracy</li>
+                    <li>Integrated automated email responses and routing, improving response efficiency and reducing delays</li>
+                    <li>Streamlined operational tasks using JavaScript</li>
+                </ul>
+                <div class="project-links">
+                    <a href="https://github.com/your-repo" target="_blank" class="project-link">→ GitHub</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>ASL Go – Hackathon Project 🏆</h3>
+                <div class="card-meta">
+                    <span><strong>1st Place, Education Track</strong></span>
+                    <span>Jun 2024</span>
+                </div>
+                <ul>
+                    <li>Led UI/UX design for ASL learning platform targeting youth accessibility</li>
+                    <li>Applied color psychology and inclusive design principles to enhance engagement</li>
+                    <li>Collaborated with developers to align interface and technical workflows</li>
+                </ul>
+                <div class="project-links">
+                    <a href="https://figma.com/your-project" target="_blank" class="project-link">→ Figma</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Travel Buddy App</h3>
+                <div class="card-meta">
+                    <span><strong>Team Project</strong></span>
+                    <span>Feb – Apr 2023</span>
+                </div>
+                <ul>
+                    <li>Led planning and coordination of 4-member team for travel planning app</li>
+                    <li>Built wireframes and interactive prototypes, improving navigation by 25%</li>
+                    <li>Focused on UI/UX design to enhance usability and engagement</li>
+                </ul>
+                <div class="project-links">
+                    <a href="https://behance.net/your-project" target="_blank" class="project-link">→ Behance</a>
+                    <a href="https://figma.com/your-project" target="_blank" class="project-link">→ Figma</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="section-header">
+                <h2>Skills & Expertise</h2>
+                <p class="section-subtitle">ingredients for success 🌟</p>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">💻</div>
+                    <h3>Programming</h3>
+                    <p>Python, C++, Java, JavaScript, HTML/CSS, R</p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">📊</div>
+                    <h3>Data Science & ML</h3>
+                    <p>scikit-learn, pandas, pgmpy, matplotlib, networkx, Jupyter Notebook, R Studio</p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">🎨</div>
+                    <h3>Design & Tools</h3>
+                    <p>Figma, UI/UX Design, Adobe Creative Cloud, Microsoft Office, Google Workspace, SharePoint</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="section-header">
+                <h2>Let's Connect</h2>
+                <p class="section-subtitle">your next great hire is just a message away ✉️</p>
+            </div>
+
+            <div class="contact-grid">
+                <a href="mailto:nhu.nguyen@plu.edu" class="contact-card">
+                    <div class="contact-icon">📧</div>
+                    <div>Email Me</div>
+                </a>
+
+                <a href="https://linkedin.com/in/your-profile" target="_blank" class="contact-card">
+                    <div class="contact-icon">💼</div>
+                    <div>LinkedIn</div>
+                </a>
+
+                <a href="https://github.com/your-profile" target="_blank" class="contact-card">
+                    <div class="contact-icon">💻</div>
+                    <div>GitHub</div>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>Brewed with ☕ by Nhu Nguyen © 2025</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Thanks for stopping by—hope my portfolio matched your expectations! ✨</p>
+    </footer>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Show nav on scroll
+        const nav = document.getElementById('nav');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 500) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Intersection Observer for sections
+        const sections = document.querySelectorAll('section');
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+
+        // Matcha particle trail on mouse move
+        let particles = [];
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.8) {
+                const particle = document.createElement('div');
+                particle.className = 'matcha-particle';
+                particle.style.left = e.clientX + 'px';
+                particle.style.top = e.clientY + 'px';
+                document.body.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), 2000);
+            }
+        });
+
+        // Add hover sound effect simulation (visual feedback)
+        document.querySelectorAll('.card, .contact-card, .skill-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+        });
+    </script>
+</body>
+</html>
